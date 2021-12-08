@@ -1,0 +1,23 @@
+1) Pick an Agent from project 1 and 2
+    - Agent 1
+    - Agent 3
+2) Copy over any relevant code
+    - Can copy over from just Project 2
+3) Generate data using the selected Agents
+    - Agent 1
+        - For each step in the execution:
+            - Record in a file the discovered_grid, current position, which direction Agent 1 moved (up,down,left,right)
+    - Agent 3
+        - For each step in the execution:
+            - Record in a file the discovered_grid, block_sense info, current position, which direction Agent 1 moved (up,down,left,right)
+    - Repeat with as many boards to generate enough data
+4) Create Neural Networks
+    - Follow Prof. Cowan's Tensorflow tutorials to create the neural network
+    - Train the neural network with the corresponding data files made in step 3
+    - Adjust number of layers, number of nodes in each layer, activation function, loss function, and optimizer appropriately
+    - Test Agent against their counterpart and record details like trajectory length, number of bumps, etc
+5) Create CNN
+    - Follow Prof. Cowan's Tensorflow tutorials to create the CNN
+    - Train the neural network with the corresponding data files made in step 3
+    - Adjust number of layers, number of nodes in each layer, activation function, loss function, optimizer, filter/feature, window size, and stride length appropriately
+    - Test Agent against their counterpart and record details like trajectory length, number of bumps, etc

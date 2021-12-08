@@ -1,0 +1,19 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+argparse = "*"
+plotly = "*"
+pandas = "*"
+importlib-metadata = "==1.7.0"
+nbformat = "*"
+jupyter = "*"
+ipykernel = "*"
+kaleido = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.7"
