@@ -1,23 +1,24 @@
 import os
 import json
 
+# Name of directory for grids
 directory_name = os.path.dirname(__file__) + '/../data/small_grids/'
+# List that holds all the grids to be used as inputs for training
 x_train_grid = []
+# List that holds all the positions to be used as inputs for training
 x_train_position = []
+# List that holds all the directions to be used as outputs for training
 y_train = []
 
+# iterate through all grids
 for file_name in os.listdir(directory_name):
     f = open(directory_name + file_name)
     data = json.load(f)
 
-    file_grid = []
-    file_position = []
-    file_direction = []
+    # Iterate through all the data in a given grid and append their input and output values
     for i in data:
-        file_grid.append(i['gridworld'])
-        file_position.append(i['position'])
-        file_direction.append(i['direction'])
-    x_train_grid.append(file_grid)
-    x_train_position.append(file_position)
-    y_train.append(file_direction)
+        x_train_grid.append(i['gridworld'])
+        x_train_position.append(i['position'])
+        y_train.append(i['direction'])
+print(y_train)
 
