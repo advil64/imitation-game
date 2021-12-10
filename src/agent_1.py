@@ -1,4 +1,5 @@
 from gridworld import Gridworld
+from heuristics import manhattan
 
 class Agent_1:
 
@@ -38,6 +39,7 @@ class Agent_1:
     out['gridworld'] = self.copy_flatgrid(grid.gridworld)
     
     # add the position and direction into the output as well
+    out['distance'] = manhattan(position, (self.dim-1, self.dim-1))
     out['position'] = position
     out['direction'] = direction
 

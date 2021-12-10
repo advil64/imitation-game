@@ -12,7 +12,7 @@ class Gridworld:
         # start filling in grids by rows and columns
         if empty:
             for x in range(dim):
-                self.gridworld.append([9 for i in range(dim)])
+                self.gridworld.append([2 for i in range(dim)])
         else:
             for x in range(dim):
                 row = []
