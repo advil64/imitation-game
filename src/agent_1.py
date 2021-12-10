@@ -33,15 +33,18 @@ class Agent_1:
     out = {}
 
     # loop through the grid and convert each row to a string
-    for index,row in enumerate(grid.gridworld):
-      out['row_{}'.format(index)] = row
+    # for index,row in enumerate(grid.gridworld):
+    #   out['row_{}'.format(index)] = self.copy_row(row)
+    out['gridworld'] = self.copy_flatgrid(grid.gridworld)
     
     # add the position and direction into the output as well
     out['position'] = position
     out['direction'] = direction
 
-    self.output = out
+    self.output.append(out)
     
+  def copy_flatgrid(self, grid):
+    return [i for row in grid for i in row]
 
   def get_direction(self, start, next):
     # 0 = left, 1 = up, 2 = right, 3 = down

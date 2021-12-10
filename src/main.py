@@ -26,7 +26,7 @@ def solver(dim, prob, directory, complete_grid=None):
       complete_grid = Gridworld(dim, prob, False)
 
     # create agents
-    agents = [Agent_1(dim, {}), Agent_3(dim)]
+    agents = [Agent_1(dim, []), Agent_3(dim)]
 
     for count, agent_object in enumerate(agents):
         # total number of cells explored
