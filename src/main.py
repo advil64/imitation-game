@@ -8,6 +8,7 @@ from heuristics import manhattan
 from a_star import path_planner
 import json
 from pprint import pprint
+import calendar
 
 """
   Creates a gridworld and carrys out repeated A* based on the agent
@@ -17,24 +18,17 @@ from pprint import pprint
   @param complete_grid: optional supplied grid instead of creating one 
 """
 
+def solver(dim, prob, directory, complete_grid=None):
 
-def solver(dim, prob, complete_grid=None):
-
-    # create a gridworld
-    if not complete_grid:
-        complete_grid = Gridworld(dim, prob, False)
-        complete_grid.print()
-        print()
-
-    # json output
-    data = {"Agent 1": {}, "Agent 3": {}}
+    complete_grid = Gridworld(dim, prob, False)
+    while not verify_solvability(dim, complete_grid):
+      # keep generating a new grid until we get a solvable one
+      complete_grid = Gridworld(dim, prob, False)
 
     # create agents
-    agents = [Agent_1(dim), Agent_3(dim)]
-    agent_counter = 0
+    agents = [Agent_1(dim, {}), Agent_3(dim)]
 
-    for agent_object in agents:
-        agent_counter += 1
+    for count, agent_object in enumerate(agents):
         # total number of cells explored
         trajectory_length = 0
         # total number of cells processed
@@ -92,14 +86,24 @@ def solver(dim, prob, complete_grid=None):
 
         completion_time = time() - starting_time
 
-        data["Agent {}".format(agent_counter)] = {"processed": total_cells_processed, "retries": retries, "trajectory": trajectory_length, "shortest_trajectory": shortest_trajectory, "time": completion_time, "completed": complete_status}
-
         # print("Agent %s Completed in %s seconds" % (agent_counter, completion_time))
         # print("Agent %s Processed %s cells" % (agent_counter, total_cells_processed))
         # print("Agent %s Retried %s times" % (agent_counter, retries))
         # print("Agent %s Has Trajectory Length %s" % (agent_counter, trajectory_length))
     
-    print(json.dumps(data))
+    # get time and write to file
+    with open('{}/agent_1_{}.json'.format(directory, int(starting_time)), 'w') as outfile:
+        json.dump(agents[0].output, outfile)
+
+def verify_solvability(dim, complete_grid):
+    # start planning a path from the starting block
+    new_path, cells_processed, s = path_planner((0,0), None, complete_grid, dim, manhattan)
+
+    # Check if a path was found
+    if not new_path:
+      return False
+    
+    return True
 
 def grid_solver(dim, discovered_grid):
     final_path = None
@@ -129,18 +133,17 @@ def main():
         "-d", "--dimension", type=int, default=5, help="dimension of gridworld"
     )
     p.add_argument(
-        "-p",
-        "--probability",
-        type=float,
-        default=0.33,
-        help="probability of a blocked square",
+        "-p", "--probability", type=float, default=0.33, help="probability of a blocked square"
+    )
+    p.add_argument(
+        "-w", "--directory", type=str, default='data/default', help='directory to store the json in'
     )
 
     # parse arguments and create the gridworld
     args = p.parse_args()
 
     # call the solver method with the args
-    solver(args.dimension, args.probability)
+    solver(args.dimension, args.probability, args.directory)
 
 
 if __name__ == "__main__":

@@ -9,7 +9,7 @@
             - Record in a file the discovered_grid, current position, which direction Agent 1 moved (up,down,left,right)
     - Agent 3
         - For each step in the execution:
-            - Record in a file the discovered_grid, block_sense info, current position, which direction Agent 1 moved (up,down,left,right)
+            - Record in a file the discovered_grid, block_sense info, current position, which direction Agent 3 moved (up,down,left,right)
     - Repeat with as many boards to generate enough data
 4) Create Neural Networks
     - Follow Prof. Cowan's Tensorflow tutorials to create the neural network
