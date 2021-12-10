@@ -12,6 +12,8 @@ nbformat = "*"
 jupyter = "*"
 ipykernel = "*"
 kaleido = "*"
+numpy = "*"
+tensorflow = "*"
 
 [dev-packages]
 
