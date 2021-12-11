@@ -3,3 +3,4 @@ Pipfile.lock
 Pipfile
 data/
 .DS_Store
+models/
