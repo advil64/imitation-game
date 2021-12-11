@@ -42,11 +42,28 @@ class Agent_1:
     out['distance'] = manhattan(position, (self.dim-1, self.dim-1))
     out['position'] = position
     out['direction'] = direction
+    out['local'] = self.get_local(grid.gridworld, position)
 
     self.output.append(out)
     
   def copy_flatgrid(self, grid):
     return [i for row in grid for i in row]
+  
+  def get_local(self, grid, position):
+    locals = []
+
+    # find all the neighbors for the current cell
+    for n in [[-1,-1], [-1,0], [-1,1], [0,-1], [0,0], [0,1], [1,-1], [1,0], [1,1]]:
+      # the cordinates of the neighbor
+      curr_neighbor = (position[0] + n[0], position[1] + n[1])
+      # check bounds
+      if curr_neighbor[0] >= 0 and curr_neighbor[0] < self.dim and curr_neighbor[1] >= 0 and curr_neighbor[1] < self.dim:
+        # add the neighbor cell to our list
+        locals.append(grid[curr_neighbor[0]][curr_neighbor[1]])
+      else:
+        locals.append(3)
+    
+    return locals
 
   def get_direction(self, start, next):
     # 0 = left, 1 = up, 2 = right, 3 = down

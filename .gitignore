@@ -1,3 +1,5 @@
 Pipfile
 Pipfile.lock
 Pipfile
+data/
+.DS_Store
