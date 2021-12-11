@@ -13,6 +13,8 @@ class Gridworld:
         if empty:
             for x in range(dim):
                 self.gridworld.append([2 for i in range(dim)])
+            self.gridworld[0][0] = 0
+            self.gridworld[dim-1][dim-1] = 0
         else:
             for x in range(dim):
                 row = []

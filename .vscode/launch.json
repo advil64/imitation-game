@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "./src/main.py",
             "console": "integratedTerminal",
-            "args": ["-d", "30", "-p", "0.3", "-w", "data/small_grids"]
+            "args": ["-d", "30", "-p", "0.3", "-w", "data/small_grids_test"]
         }
     ]
 }
