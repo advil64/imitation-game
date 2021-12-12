@@ -18,13 +18,14 @@ class Agent_1:
         self.discovered_grid.update_grid_obstacle(curr, 1)
         return node.parent_block, explored
 
-      # Add step info to dataset
-      if index < len(path)-1:
-        self.add_to_json(self.discovered_grid, curr, self.get_direction(curr, path[index + 1].curr_block))
-
       self.discovered_grid.update_grid_obstacle(curr, 0)
       # update knowledge of neighbor blocks
       self.update_neighbor_obstacles(curr, complete_grid)
+
+      # Add step info to dataset
+      if index < len(path)-1 and self.discovered_grid.gridworld[path[index + 1].curr_block[0]][path[index + 1].curr_block[1]] != 1:
+        self.add_to_json(self.discovered_grid, curr, self.get_direction(curr, path[index + 1].curr_block))
+
       explored += 1
     return path[-1], explored
 
@@ -53,7 +54,7 @@ class Agent_1:
     locals = []
 
     # find all the neighbors for the current cell
-    for n in [[-1,-1], [-1,0], [-1,1], [0,-1], [0,0], [0,1], [1,-1], [1,0], [1,1]]:
+    for n in [[-2,-2], [-2,-1], [-2,0], [-2,1], [-2,2], [-1,-2], [-1,-1], [-1,0], [-1,1], [-1,2], [0,-2], [0,-1], [0,0], [0,1], [0,2], [1,-2], [1,-1], [1,0], [1,1], [1,2], [2,-2], [2,-1], [2,0], [2,1], [2,2]]:
       # the cordinates of the neighbor
       curr_neighbor = (position[0] + n[0], position[1] + n[1])
       # check bounds
@@ -61,7 +62,7 @@ class Agent_1:
         # add the neighbor cell to our list
         locals.append(0)
       else:
-        locals.append(3)
+        locals.append(1)
     
     return locals
 

@@ -20,7 +20,7 @@ class Agent_1:
       self.update_neighbor_obstacles(curr, complete_grid)
 
       in_grid = np.reshape(self.discovered_grid.gridworld, (1, 10, 10)) / 2
-      in_local = np.reshape(self.get_local(self.discovered_grid.gridworld, curr), (1, 3, 3))
+      in_local = np.reshape(self.get_local(self.discovered_grid.gridworld, curr), (1, 5, 5)) * 3
       in_position = np.reshape([curr[0], curr[1]], (1, 2, 1))
       prob_predict = self.neural_network.predict( [in_grid, in_local, in_position] )
       prediction = np.argmax( prob_predict, axis = 1 )
@@ -61,7 +61,7 @@ class Agent_1:
     locals = []
 
     # find all the neighbors for the current cell
-    for n in [[-1,-1], [-1,0], [-1,1], [0,-1], [0,0], [0,1], [1,-1], [1,0], [1,1]]:
+    for n in [[-2,-2], [-2,-1], [-2,0], [-2,1], [-2,2], [-1,-2], [-1,-1], [-1,0], [-1,1], [-1,2], [0,-2], [0,-1], [0,0], [0,1], [0,2], [1,-2], [1,-1], [1,0], [1,1], [1,2], [2,-2], [2,-1], [2,0], [2,1], [2,2]]:
       # the cordinates of the neighbor
       curr_neighbor = (position[0] + n[0], position[1] + n[1])
       # check bounds
@@ -69,7 +69,7 @@ class Agent_1:
         # add the neighbor cell to our list
         locals.append(0)
       else:
-        locals.append(3)
+        locals.append(1)
     
     return locals
   
