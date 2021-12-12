@@ -31,9 +31,8 @@ def solver(dim, prob, directory, complete_grid=None):
     agents = [agent_1_nn(dim)]
 
     starting_time = time()
-    completion_time = time() - starting_time
-
     success, trajectory_length, retries = agents[0].execute_path(complete_grid)
+    completion_time = time() - starting_time
 
     if success:
         print("Agent 1_NN Completed in %s seconds" % (completion_time))

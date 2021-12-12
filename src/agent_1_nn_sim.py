@@ -21,7 +21,7 @@ class Agent_1:
       self.update_neighbor_obstacles(curr, complete_grid)
       self.cg[curr[0]][curr[1]] += 1
 
-      in_grid = np.reshape(self.discovered_grid.gridworld, (1, 25, 25)) / 2
+      in_grid = np.reshape(self.discovered_grid.gridworld, (1, 50, 50)) / 2
       locals_val = self.get_local(self.discovered_grid.gridworld, curr)
       in_local = np.reshape(locals_val, (1, 5, 5))
       print(in_local)
@@ -35,8 +35,9 @@ class Agent_1:
       new_position = (curr[0] + direction[0], curr[1] + direction[1])
 
       if new_position[0] < 0 or new_position[0] >= self.dim or new_position[1] < 0 or new_position[1] >= self.dim:
-        print("NN Agent 1 Failed: Went out of boundary")
-        return False, trajectory_length, retries
+        # print("NN Agent 1 Failed: Went out of boundary")
+        # return False, trajectory_length, retries
+        self.cg[curr[0]][curr[1]] += 1
       
       if complete_grid.gridworld[new_position[0]][new_position[1]] == 1:
         retries += 1

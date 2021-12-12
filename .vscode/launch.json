@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "./src/main_nn.py",
             "console": "integratedTerminal",
-            "args": ["-d", "25", "-p", "0.3", "-w", "data/small_grids_test"]
+            "args": ["-d", "50", "-p", "0.3", "-w", "data/small_grids_test"]
         }
     ]
 }

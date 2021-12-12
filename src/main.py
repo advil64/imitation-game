@@ -86,10 +86,10 @@ def solver(dim, prob, directory, complete_grid=None):
 
         completion_time = time() - starting_time
 
-        # print("Agent %s Completed in %s seconds" % (agent_counter, completion_time))
-        # print("Agent %s Processed %s cells" % (agent_counter, total_cells_processed))
-        # print("Agent %s Retried %s times" % (agent_counter, retries))
-        # print("Agent %s Has Trajectory Length %s" % (agent_counter, trajectory_length))
+        # print("Agent %s Completed in %s seconds" % (count, completion_time))
+        # print("Agent %s Processed %s cells" % (count, total_cells_processed))
+        # print("Agent %s Retried %s times" % (count, retries))
+        # print("Agent %s Has Trajectory Length %s" % (count, trajectory_length))
     
     # get time and write to file
     with open('{}/agent_1_{}.json'.format(directory, int(starting_time)), 'w') as outfile:
