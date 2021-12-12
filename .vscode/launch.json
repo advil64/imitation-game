@@ -8,9 +8,9 @@
             "name": "Python Run Main",
             "type": "python",
             "request": "launch",
-            "program": "./src/main.py",
+            "program": "./src/main_nn.py",
             "console": "integratedTerminal",
-            "args": ["-d", "30", "-p", "0.3", "-w", "data/small_grids_test"]
+            "args": ["-d", "10", "-p", "0.3", "-w", "data/small_grids_test"]
         }
     ]
 }

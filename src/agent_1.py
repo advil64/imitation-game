@@ -57,9 +57,9 @@ class Agent_1:
       # the cordinates of the neighbor
       curr_neighbor = (position[0] + n[0], position[1] + n[1])
       # check bounds
-      if curr_neighbor[0] >= 0 and curr_neighbor[0] < self.dim and curr_neighbor[1] >= 0 and curr_neighbor[1] < self.dim:
+      if curr_neighbor[0] >= 0 and curr_neighbor[0] < self.dim and curr_neighbor[1] >= 0 and curr_neighbor[1] < self.dim and grid[curr_neighbor[0]][curr_neighbor[1]] != 1:
         # add the neighbor cell to our list
-        locals.append(grid[curr_neighbor[0]][curr_neighbor[1]])
+        locals.append(0)
       else:
         locals.append(3)
     
