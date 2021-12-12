@@ -6,6 +6,7 @@ class Agent_1:
   def __init__(self, dim, output):
     self.dim = dim
     self.discovered_grid = Gridworld(dim)
+    self.cg = [[0] * dim for i in range(dim)]
     self.output = output
 
   def execute_path(self, path, complete_grid, path_coord):
@@ -21,6 +22,7 @@ class Agent_1:
       self.discovered_grid.update_grid_obstacle(curr, 0)
       # update knowledge of neighbor blocks
       self.update_neighbor_obstacles(curr, complete_grid)
+      self.cg[curr[0]][curr[1]] += 1
 
       # Add step info to dataset
       if index < len(path)-1 and self.discovered_grid.gridworld[path[index + 1].curr_block[0]][path[index + 1].curr_block[1]] != 1:
@@ -60,9 +62,14 @@ class Agent_1:
       # check bounds
       if curr_neighbor[0] >= 0 and curr_neighbor[0] < self.dim and curr_neighbor[1] >= 0 and curr_neighbor[1] < self.dim and grid[curr_neighbor[0]][curr_neighbor[1]] != 1:
         # add the neighbor cell to our list
-        locals.append(0)
+        locals.append(self.cg[curr_neighbor[0]][curr_neighbor[1]])
       else:
-        locals.append(1)
+        locals.append(-1)
+    
+    max_val = max(locals) + 4
+    for i in range(len(locals)):
+      if locals[i] == -1:
+        locals[i] = max_val
     
     return locals
 

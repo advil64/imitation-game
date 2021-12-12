@@ -7,6 +7,7 @@ class Agent_1:
   def __init__(self, dim):
     self.dim = dim
     self.discovered_grid = Gridworld(dim)
+    self.cg = [[0] * dim for i in range(dim)]
     self.neural_network = tf.keras.models.load_model('/Users/naveenanyogeswaran/Desktop/School/imitation-game/models/agent1_NN')
 
   def execute_path(self, complete_grid):
@@ -18,9 +19,12 @@ class Agent_1:
       trajectory_length += 1
 
       self.update_neighbor_obstacles(curr, complete_grid)
+      self.cg[curr[0]][curr[1]] += 1
 
-      in_grid = np.reshape(self.discovered_grid.gridworld, (1, 10, 10)) / 2
-      in_local = np.reshape(self.get_local(self.discovered_grid.gridworld, curr), (1, 5, 5)) * 3
+      in_grid = np.reshape(self.discovered_grid.gridworld, (1, 25, 25)) / 2
+      locals_val = self.get_local(self.discovered_grid.gridworld, curr)
+      in_local = np.reshape(locals_val, (1, 5, 5))
+      print(in_local)
       in_position = np.reshape([curr[0], curr[1]], (1, 2, 1))
       prob_predict = self.neural_network.predict( [in_grid, in_local, in_position] )
       prediction = np.argmax( prob_predict, axis = 1 )
@@ -36,9 +40,10 @@ class Agent_1:
       
       if complete_grid.gridworld[new_position[0]][new_position[1]] == 1:
         retries += 1
-        if self.discovered_grid.gridworld[new_position[0]][new_position[1]] == 1:
-          print("NN Agent 1 Failed: Attempted to enter a known blocked cell")
-          return False, trajectory_length, retries
+        # if self.discovered_grid.gridworld[new_position[0]][new_position[1]] == 1:
+        #   print("NN Agent 1 Failed: Attempted to enter a known blocked cell")
+        #   return False, trajectory_length, retries
+        self.cg[curr[0]][curr[1]] += 1
         # update our knowledge of blocked nodes
         self.discovered_grid.update_grid_obstacle(new_position, 1)
       else:
@@ -67,9 +72,14 @@ class Agent_1:
       # check bounds
       if curr_neighbor[0] >= 0 and curr_neighbor[0] < self.dim and curr_neighbor[1] >= 0 and curr_neighbor[1] < self.dim and grid[curr_neighbor[0]][curr_neighbor[1]] != 1:
         # add the neighbor cell to our list
-        locals.append(0)
+        locals.append(self.cg[curr_neighbor[0]][curr_neighbor[1]])
       else:
-        locals.append(1)
+        locals.append(-1)
+    
+    max_val = max(locals) + 4
+    for i in range(len(locals)):
+      if locals[i] == -1:
+        locals[i] = max_val
     
     return locals
   
