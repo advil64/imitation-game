@@ -10,7 +10,7 @@ class Agent_1:
     self.dim = dim
     self.discovered_grid = Gridworld(dim)
     self.cg = [[0] * dim for i in range(dim)]
-    self.neural_network = tf.keras.models.load_model('/Users/advithchegu/Desktop/imitation-game/models/agent1_NN')
+    self.neural_network = tf.keras.models.load_model('/Users/advithchegu/Desktop/imitation-game/models/agent1_CNN')
 
   def execute_path(self, complete_grid, timeout_sec):
     starting_time = time()

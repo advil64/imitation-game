@@ -4,11 +4,13 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+ipykernel = "*"
 
 [packages]
 pandas = "*"
 numpy = "*"
 tensorflow = "*"
+ipykernel = "*"
 
 [requires]
-python_version = "3.7"
+python_version = "3.8"

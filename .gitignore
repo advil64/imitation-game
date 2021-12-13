@@ -1,6 +1,6 @@
 Pipfile
 Pipfile.lock
 Pipfile
-data/
+data/*
 .DS_Store
 models/

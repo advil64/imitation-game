@@ -91,9 +91,19 @@ def solver(dim, prob, directory, complete_grid=None):
         # print("Agent %s Retried %s times" % (count, retries))
         # print("Agent %s Has Trajectory Length %s" % (count, trajectory_length))
     
+    output = {}
+    if complete_status:
+        output['completion_time'] = completion_time
+        output['retries'] = retries
+        output['trajectory_length'] = trajectory_length
+        output['success'] = complete_status
+    else:
+        output['success'] = complete_status
+    return output
+
     # get time and write to file
-    with open('{}/agent_1_{}.json'.format(directory, int(starting_time)), 'w') as outfile:
-        json.dump(agents[0].output, outfile)
+    # with open('{}/agent_1_{}.json'.format(directory, int(starting_time)), 'w') as outfile:
+    #     json.dump(agents[0].output, outfile)
 
 def verify_solvability(dim, complete_grid):
     # start planning a path from the starting block
