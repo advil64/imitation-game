@@ -10,7 +10,7 @@ class Agent_1:
     self.dim = dim
     self.discovered_grid = Gridworld(dim)
     self.cg = [[0] * dim for i in range(dim)]
-    self.neural_network = tf.keras.models.load_model('/Users/advithchegu/Desktop/imitation-game/models/agent1_CNN')
+    self.neural_network = tf.keras.models.load_model('/common/users/ac1771/imitation-game/models/agent1_CNN')
 
   def execute_path(self, complete_grid, timeout_sec):
     starting_time = time()
@@ -19,6 +19,7 @@ class Agent_1:
     trajectory_length = 0
     curr = (0,0)
     prev = curr
+    random_rounds = 0
     while curr != (self.dim-1, self.dim-1):
       time_elapsed = time() - starting_time
       print("Currently in: (%s, %s)" % (curr[0], curr[1]))
@@ -59,7 +60,7 @@ class Agent_1:
       # if we've been in the same place for too long, force the algorithm to take a couple of random steps
       if time_elapsed > timeout_sec:
         print("Take 5 random step")
-        # retries += 1
+        random_rounds += 1
         # get options
         for i in range(5):
           options = self.get_open_neighbors(curr, complete_grid.gridworld)
@@ -69,7 +70,7 @@ class Agent_1:
 
         
     
-    return True, trajectory_length, retries
+    return True, trajectory_length, retries, random_rounds
   
 
   def get_open_neighbors(self, position, grid):

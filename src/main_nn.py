@@ -41,7 +41,7 @@ def solver(dim, prob, directory, complete_grid=None):
     try:
         for c, i in enumerate(agents):
             starting_time = time()
-            success, trajectory_length, retries = i.execute_path(complete_grid, 20)
+            success, trajectory_length, retries, random_rounds = i.execute_path(complete_grid, 20)
             completion_time = time() - starting_time
             if c == 0:
                 # write to json
@@ -49,13 +49,15 @@ def solver(dim, prob, directory, complete_grid=None):
                 nn_res['completion_time'] = completion_time
                 nn_res['retries'] = retries
                 nn_res['trajectory_length'] = trajectory_length
+                nn_res['random_rounds'] = random_rounds
             else:
                 # write to json
                 cnn_res['success'] = True
                 cnn_res['completion_time'] = completion_time
                 cnn_res['retries'] = retries
                 cnn_res['trajectory_length'] = trajectory_length
-    except Exception():
+                nn_res['random_rounds'] = random_rounds
+    except:
         success = False
         # write to json
         if nn_res == {}:
@@ -65,7 +67,7 @@ def solver(dim, prob, directory, complete_grid=None):
         print("Agent failed")
 
     # write the jsons to a file
-    with open('results/agent_1/{}.json'.format(int(starting_time)), 'w') as outfile:
+    with open('{}/{}.json'.format(directory, int(starting_time)), 'w') as outfile:
         json.dump({'agent_1': normal_out, 'agent_1_nn': nn_res, 'agent_1_cnn': cnn_res}, outfile)
 
 def verify_solvability(dim, complete_grid):
