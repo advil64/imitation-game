@@ -3,7 +3,7 @@ from cell import Cell
 
 
 class Agent_3:
-    def __init__(self, dim):
+    def __init__(self, dim, output):
         self.dim = dim
         self.discovered_grid = Gridworld(dim)
         # grid that Agent uses to keep track of each cell info
@@ -13,6 +13,10 @@ class Agent_3:
             for j in range(dim):
                 row.append(Cell(i, j, dim))
             self.cell_info.append(row)
+        self.path_world = Gridworld(dim)
+        self.cg = [[0] * dim for i in range(dim)]
+        self.cell_sense_map = [[-1] * dim for i in range(dim)]
+        self.output = output
 
     """
     Given a path (from repeated A*) we traverse through the gridworld and gather information
@@ -23,7 +27,7 @@ class Agent_3:
 
     def execute_path(self, path, complete_grid, path_coord):
         explored = 0
-        for node in path:
+        for index,node in enumerate(path):
             curr = node.curr_block
             path_coord.remove(curr)
             cell = self.cell_info[curr[0]][curr[1]]
@@ -36,11 +40,18 @@ class Agent_3:
                 self.sense_neighbors(cell, complete_grid)
                 # update our knowledge of blocked nodes
                 self.discovered_grid.update_grid_obstacle(curr, 0)
+
+                self.path_world.update_grid_obstacle(curr,0)
+                self.cg[curr[0]][curr[1]] += 1
+                # Add step info to dataset
+                if index < len(path)-1 and self.discovered_grid.gridworld[path[index + 1].curr_block[0]][path[index + 1].curr_block[1]] != 1:
+                    self.add_to_json(self.path_world, curr, self.get_direction(curr, path[index + 1].curr_block))
+
                 # return the last node
                 to_ret = node
-
             else:
                 self.discovered_grid.update_grid_obstacle(curr, 1)
+                self.path_world.update_grid_obstacle(curr, 1)
                 # return the parent and tell the gridworld to find a new path
                 to_ret = node.parent_block
                 # set bump to true to indicate we bumped into an obstacle
@@ -62,6 +73,63 @@ class Agent_3:
                 return to_ret, explored
 
         return path[-1], explored
+    
+    def add_to_json(self, grid, position, direction):
+
+        # first map grid to a json compatible object
+        out = {}
+
+        # loop through the grid and convert each row to a string
+        # for index,row in enumerate(grid.gridworld):
+        #   out['row_{}'.format(index)] = self.copy_row(row)
+        out['gridworld'] = self.copy_flatgrid(grid.gridworld)
+        
+        # add the position and direction into the output as well
+        out['sense'] = self.copy_flatgrid(self.cell_sense_map)
+        out['position'] = self.copy_flatgrid(self.get_position(position))
+        out['direction'] = direction
+        out['local'] = self.get_local(grid.gridworld, position)
+
+        self.output.append(out)
+        
+    def copy_flatgrid(self, grid):
+        return [i for row in grid for i in row]
+
+    def get_local(self, grid, position):
+        locals = []
+
+        # find all the neighbors for the current cell
+        for n in [[-2,-2], [-2,-1], [-2,0], [-2,1], [-2,2], [-1,-2], [-1,-1], [-1,0], [-1,1], [-1,2], [0,-2], [0,-1], [0,0], [0,1], [0,2], [1,-2], [1,-1], [1,0], [1,1], [1,2], [2,-2], [2,-1], [2,0], [2,1], [2,2]]:
+            # the cordinates of the neighbor
+            curr_neighbor = (position[0] + n[0], position[1] + n[1])
+            # check bounds
+            if curr_neighbor[0] >= 0 and curr_neighbor[0] < self.dim and curr_neighbor[1] >= 0 and curr_neighbor[1] < self.dim and grid[curr_neighbor[0]][curr_neighbor[1]] != 1:
+            # add the neighbor cell to our list
+                locals.append(self.cg[curr_neighbor[0]][curr_neighbor[1]])
+            else:
+                locals.append(-1)
+        max_val = max(locals) + 4
+        for i in range(len(locals)):
+            if locals[i] == -1:
+                locals[i] = max_val
+        
+        return locals
+
+    def get_position(self, position):
+        pos_grid = [[0] * self.dim for i in range(self.dim)]
+        pos_grid[position[0]][position[1]] = 1
+        return pos_grid
+
+    def get_direction(self, start, next):
+        # 0 = left, 1 = up, 2 = right, 3 = down
+        if next[0] - start[0] == 1:
+            return 3
+        elif next[0] - start[0] == -1:
+            return 1
+        elif next[1] - start[1] == 1:
+            return 2
+        else:
+            return 0
 
     def update_neighbors(self, cell):
         # set that contains any cell that's been confirmed
@@ -103,6 +171,7 @@ class Agent_3:
 
         # return the number of obstacles surrounding the current node
         cell.block_sense = num_sensed
+        self.cell_sense_map[cell.x][cell.y] = num_sensed
 
     """
     This method stores the surrounding information of any given cell based on the discovered grid
