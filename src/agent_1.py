@@ -43,7 +43,7 @@ class Agent_1:
     
     # add the position and direction into the output as well
     out['distance'] = manhattan(position, (self.dim-1, self.dim-1))
-    out['position'] = position
+    out['position'] = self.copy_flatgrid(self.get_position(position))
     out['direction'] = direction
     out['local'] = self.get_local(grid.gridworld, position)
 
@@ -72,6 +72,11 @@ class Agent_1:
         locals[i] = max_val
     
     return locals
+
+  def get_position(self, position):
+    pos_grid = [[0] * self.dim for i in range(self.dim)]
+    pos_grid[position[0]][position[1]] = 1
+    return pos_grid
 
   def get_direction(self, start, next):
     # 0 = left, 1 = up, 2 = right, 3 = down

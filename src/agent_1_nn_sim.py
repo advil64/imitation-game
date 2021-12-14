@@ -31,7 +31,7 @@ class Agent_1:
       locals_val = self.get_local(self.discovered_grid.gridworld, curr)
       in_local = np.reshape(locals_val, (1, 5, 5))
       print(in_local)
-      in_position = np.reshape([curr[0], curr[1]], (1, 2, 1))
+      in_position = np.reshape(self.get_position(curr), (1, 50, 50))
       prob_predict = self.neural_network.predict( [in_grid, in_local, in_position] )
       prediction = np.argmax( prob_predict, axis = 1 )
 
@@ -117,6 +117,11 @@ class Agent_1:
         locals[i] = max_val
     
     return locals
+  
+  def get_position(self, position):
+    pos_grid = [[0] * self.dim for i in range(self.dim)]
+    pos_grid[position[0]][position[1]] = 1
+    return pos_grid
   
   # method for 4-neighbor agent
   def update_neighbor_obstacles(self, curr, complete_grid):
