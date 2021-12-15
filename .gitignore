@@ -6,3 +6,4 @@ data/*
 models/
 .vscode/
 wrangling.ipynb
+results/*
