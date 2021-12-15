@@ -1,0 +1,1 @@
+{"agent_1": {"completion_time": 0.1778097152709961, "retries": 53, "trajectory_length": 265, "success": true}, "agent_1_nn": {"success": true, "completion_time": 26.05481243133545, "retries": 633, "trajectory_length": 953, "random_rounds": 0}, "agent_1_cnn": {"success": true, "completion_time": 16.968934774398804, "retries": 32, "trajectory_length": 594}}

@@ -38,33 +38,40 @@ def solver(dim, prob, directory, complete_grid=None):
     # create agents (ignored agent 3)
     agents = [agent_1_nn(dim), agent_1_cnn(dim)]
 
+    # dense neural network
     try:
-        for c, i in enumerate(agents):
-            starting_time = time()
-            success, trajectory_length, retries, random_rounds = i.execute_path(complete_grid, 20)
-            completion_time = time() - starting_time
-            if c == 0:
-                # write to json
-                nn_res['success'] = True
-                nn_res['completion_time'] = completion_time
-                nn_res['retries'] = retries
-                nn_res['trajectory_length'] = trajectory_length
-                nn_res['random_rounds'] = random_rounds
-            else:
-                # write to json
-                cnn_res['success'] = True
-                cnn_res['completion_time'] = completion_time
-                cnn_res['retries'] = retries
-                cnn_res['trajectory_length'] = trajectory_length
-                nn_res['random_rounds'] = random_rounds
+        starting_time = time()
+        success, trajectory_length, retries, random_rounds = agents[0].execute_path(complete_grid, 20)
+        completion_time = time() - starting_time
+        
+        # write to json
+        nn_res['success'] = True
+        nn_res['completion_time'] = completion_time
+        nn_res['retries'] = retries
+        nn_res['trajectory_length'] = trajectory_length
+        nn_res['random_rounds'] = random_rounds
+    
     except:
         success = False
+        nn_res['success'] = False
+    
+    # convolutional layer
+    try:
+        starting_time = time()
+        success, trajectory_length, retries, random_rounds = agents[1].execute_path(complete_grid, 20)
+        completion_time = time() - starting_time
+
         # write to json
-        if nn_res == {}:
-            nn_res['success'] = False
-        else:
-            cnn_res['success'] = False
-        print("Agent failed")
+        cnn_res['success'] = True
+        cnn_res['completion_time'] = completion_time
+        cnn_res['retries'] = retries
+        cnn_res['trajectory_length'] = trajectory_length
+        nn_res['random_rounds'] = random_rounds
+
+    except:
+        success = False
+        cnn_res['success'] = False
+
 
     # write the jsons to a file
     with open('{}/{}.json'.format(directory, int(starting_time)), 'w') as outfile:

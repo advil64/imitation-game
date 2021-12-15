@@ -4,6 +4,9 @@ from gridworld import Gridworld
 from time import sleep, time
 import random
 
+physical_devices = tf.config.list_physical_devices('GPU') 
+tf.config.experimental.set_memory_growth(physical_devices[0], True)
+
 class Agent_1:
 
   def __init__(self, dim):
@@ -15,6 +18,7 @@ class Agent_1:
   def execute_path(self, complete_grid, timeout_sec):
     starting_time = time()
     time_elapsed = time() - starting_time
+    total_time_elapsed = time() - starting_time
     retries = 0
     trajectory_length = 0
     curr = (0,0)
@@ -22,6 +26,7 @@ class Agent_1:
     random_rounds = 0
     while curr != (self.dim-1, self.dim-1):
       time_elapsed = time() - starting_time
+      total_time_elapsed = time() - starting_time
       print("Currently in: (%s, %s)" % (curr[0], curr[1]))
       trajectory_length += 1
 
@@ -56,6 +61,10 @@ class Agent_1:
         self.discovered_grid.update_grid_obstacle(new_position, 1)
       else:
         curr = new_position
+
+      # throw an error if we've been in a deadend for two minutes
+      if total_time_elapsed > 60:
+        raise TimeoutError
 
       # if we've been in the same place for too long, force the algorithm to take a couple of random steps
       if time_elapsed > timeout_sec:
