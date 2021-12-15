@@ -24,6 +24,7 @@ class Agent_1:
       print("Currently in: (%s, %s)" % (curr[0], curr[1]))
       trajectory_length += 1
 
+      self.discovered_grid.update_grid_obstacle(curr, 0)
       self.update_neighbor_obstacles(curr, complete_grid)
       self.cg[curr[0]][curr[1]] += 1
 

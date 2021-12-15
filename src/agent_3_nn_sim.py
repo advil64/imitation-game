@@ -2,16 +2,24 @@ import tensorflow as tf
 import numpy as np
 from gridworld import Gridworld
 from time import sleep, time
+from cell import Cell
 import random
 
 class Agent_3:
 
     def __init__(self, dim):
         self.dim = dim
+        # grid that Agent uses to keep track of each cell info
+        self.cell_info = []
+        for i in range(dim):
+            row = []
+            for j in range(dim):
+                row.append(Cell(i, j, dim))
+            self.cell_info.append(row)
         self.discovered_grid = Gridworld(dim)
         self.cg = [[0] * dim for i in range(dim)]
         self.cell_sense_map = [[-1] * dim for i in range(dim)]
-        self.neural_network = tf.keras.models.load_model('/Users/naveenanyogeswaran/Desktop/School/imitation-game/models/agent3_NN')
+        self.neural_network = tf.keras.models.load_model('/Users/naveenanyogeswaran/Desktop/School/imitation-game/models/agent3_CNN')
 
     def execute_path(self, complete_grid, timeout_sec):
         starting_time = time()
@@ -26,13 +34,23 @@ class Agent_3:
             trajectory_length += 1
 
             self.cg[curr[0]][curr[1]] += 1
+            cell = self.cell_info[curr[0]][curr[1]]
+            self.sense_neighbors(cell, complete_grid)
+            self.discovered_grid.update_grid_obstacle(curr, 0)
 
-            in_grid = np.reshape(self.discovered_grid.gridworld, (1, 10, 10)) / 2
+            # mark the cell as visited
+            cell.visited = True
+            # mark cell as a confirmed value because it was visited
+            cell.confirmed = True
+            # use the new info to draw conclusions about neighbors
+            new_confirmed_cells = self.update_neighbors(cell)
+
+            in_grid = np.reshape(self.discovered_grid.gridworld, (1, 50, 50)) / 2
             locals_val = self.get_local(self.discovered_grid.gridworld, curr)
             in_local = np.reshape(locals_val, (1, 5, 5))
             print(in_local)
-            in_position = np.reshape(self.get_position(curr), (1, 10, 10))
-            in_sense = np.reshape(self.cell_sense_map, (1, 10, 10)) / 8
+            in_position = np.reshape(self.get_position(curr), (1, 50, 50))
+            in_sense = np.reshape(self.cell_sense_map, (1, 50, 50)) / 8
 
             prob_predict = self.neural_network.predict( [in_grid, in_position, in_sense, in_local] )
             prediction = np.argmax( prob_predict, axis = 1 )
@@ -119,18 +137,101 @@ class Agent_3:
         pos_grid[position[0]][position[1]] = 1
         return pos_grid
 
-    def sense_neighbors(self, curr, complete_grid):
+    def update_neighbors(self, cell):
+        # set that contains any cell that's been confirmed
+        new_confirmed_cells = set()
+
+        # add the neighbors of the current cell and itself to the list
+        neighbors = set(cell.get_neighbors(self.cell_info, self.dim))
+        neighbors.add(cell)
+
+        # loop through the cells and keep looping until neighbors is empty
+        while neighbors:
+            curr_cell = neighbors.pop()
+            changed = self.update_cell_info(curr_cell)
+
+            # if the cell was visited and we have the block sense, infer and add to knowledge base
+            if curr_cell.visited and curr_cell.block_sense != -1:
+                updated_cells = self.update_knowledgebase(curr_cell)
+                new_confirmed_cells.update(updated_cells)
+
+                # update all of the neighbors neighbors by adding those to the set
+                for n in updated_cells:
+                    neighbors.update(n.get_neighbors(self.cell_info, self.dim))
+                    neighbors.add(n)
+
+        return new_confirmed_cells
+
+    def sense_neighbors(self, cell, complete_grid):
         num_sensed = 0
+        neighbors = cell.get_neighbors(self.cell_info, self.dim)
 
         # loop through the neighbors to be checked and take the sum (1 is block)
-        for n in [[-1,-1], [-1,0], [-1,1], [0,-1], [0,0], [0,1], [1,-1], [1,0], [1,1]]:
-            # the cordinates of the neighbor
-            curr_neighbor = (curr[0] + n[0], curr[1] + n[1])
-            # check bounds
-            if curr_neighbor[0] >= 0 and curr_neighbor[0] < self.dim and curr_neighbor[1] >= 0 and curr_neighbor[1] < self.dim:
-                # add the neighbor cell to our list
-                num_sensed += complete_grid[curr[0]][curr[1]]
+        num_sensed = sum(complete_grid.gridworld[n.x][n.y] for n in neighbors)
 
         # return the number of obstacles surrounding the current node
-        self.cell_sense_map[curr[0]][curr[1]] = num_sensed
+        cell.block_sense = num_sensed
+        self.cell_sense_map[cell.x][cell.y] = num_sensed
+    
+    def update_cell_info(self, cell):
+        num_hidden = 0
+        num_block = 0
+        num_empty = 0
+        neighbors = cell.get_neighbors(self.cell_info, self.dim)
+
+        # loop through the neighbors to be checked
+        for n in neighbors:
+            if n.confirmed:
+                # check and increment if it is blocked
+                if self.discovered_grid.gridworld[n.x][n.y] == 1:
+                    num_block += 1
+                # otherwise increment the empty counter
+                else:
+                    num_empty += 1
+            # the neighbor cell has not been explored yet
+            else:
+                num_hidden += 1
+
+        has_changed = (
+            (cell.hidden - num_hidden)
+            or (cell.confirm_block - num_block)
+            or (cell.confirm_empty - num_empty)
+        )
+
+        if has_changed:
+            cell.hidden = num_hidden
+            cell.confirm_block = num_block
+            cell.confirm_empty = num_empty
+
+        return has_changed
+
+    def update_knowledgebase(self, cell):
+
+        updated_cells = []
+
+        # if there are hidden not cells, leave
+        if cell.hidden == 0:
+            return updated_cells
+
+        # get the neighbors and check to see which are blockers
+        neighbors = cell.get_neighbors(self.cell_info, self.dim)
+
+        # if we know all block cells, update the other cells to be empty
+        if cell.block_sense == cell.confirm_block:
+            for n in neighbors:
+                if not n.confirmed:
+                    self.discovered_grid.update_grid_obstacle((n.x, n.y), 0)
+                    n.confirmed = True
+                    updated_cells.append(n)
+            return updated_cells
+
+        # if we know all empty cells, update the other cells to be blocked
+        if cell.neighbors - cell.block_sense == cell.confirm_empty:
+            for n in neighbors:
+                if not n.confirmed:
+                    self.discovered_grid.update_grid_obstacle((n.x, n.y), 1)
+                    n.confirmed = True
+                    updated_cells.append(n)
+
+        return updated_cells
   

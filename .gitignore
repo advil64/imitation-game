@@ -4,3 +4,4 @@ Pipfile
 data/*
 .DS_Store
 models/
+.vscode/
