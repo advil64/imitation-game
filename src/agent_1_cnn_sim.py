@@ -4,7 +4,17 @@ from gridworld import Gridworld
 from time import sleep, time
 import random
 
-physical_devices = tf.config.list_physical_devices('GPU') 
+gpus = tf.config.list_physical_devices('GPU')
+
+if gpus:
+  # Restrict TensorFlow to only use the first GPU
+  try:
+    tf.config.set_visible_devices(gpus[0], 'GPU')
+  except RuntimeError as e:
+    # Visible devices must be set before GPUs have been initialized
+    print(e)
+
+physical_devices = tf.config.list_physical_devices('GPU')
 tf.config.experimental.set_memory_growth(physical_devices[0], True)
 
 class Agent_1:

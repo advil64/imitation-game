@@ -3,12 +3,14 @@ import argparse
 from time import sleep, time
 from gridworld import Gridworld
 from agent_3_nn_sim import Agent_3 as agent_3_nn
+from agent_3_cnn_sim import Agent_3 as agent_3_cnn
 from agent_3 import Agent_3
 from heuristics import manhattan
 from a_star import path_planner
 import json
 from pprint import pprint
 import calendar
+from main import solver as normal_solver
 
 """
   Creates a gridworld and carrys out repeated A* based on the agent
@@ -20,6 +22,9 @@ import calendar
 
 def solver(dim, prob, directory, complete_grid=None):
 
+    nn_res = {}
+    cnn_res = {}
+
     complete_grid = Gridworld(dim, prob, False)
     while not verify_solvability(dim, complete_grid):
       # keep generating a new grid until we get a solvable one
@@ -27,19 +32,50 @@ def solver(dim, prob, directory, complete_grid=None):
     
     complete_grid.print()
 
+    # first run the normal agent on the complete grid and collect data
+    normal_out = normal_solver(dim, prob, complete_grid)
+
     # create agents (ignored agent 3)
-    agents = [agent_3_nn(dim)]
+    agents = [agent_3_nn(dim), agent_3_cnn(dim)]
 
-    starting_time = time()
-    success, trajectory_length, retries = agents[0].execute_path(complete_grid, 20)
-    completion_time = time() - starting_time
+    # dense neural network
+    try:
+        starting_time = time()
+        success, trajectory_length, retries, random_rounds = agents[0].execute_path(complete_grid, 20)
+        completion_time = time() - starting_time
+        
+        # write to json
+        nn_res['success'] = True
+        nn_res['completion_time'] = completion_time
+        nn_res['retries'] = retries
+        nn_res['trajectory_length'] = trajectory_length
+        nn_res['random_rounds'] = random_rounds
+    
+    except:
+        success = False
+        nn_res['success'] = False
+    
+    # convolutional layer
+    try:
+        starting_time = time()
+        success, trajectory_length, retries, random_rounds = agents[1].execute_path(complete_grid, 20)
+        completion_time = time() - starting_time
 
-    if success:
-        print("Agent 1_NN Completed in %s seconds" % (completion_time))
-        print("Agent 1_NN Retried %s times" % (retries))
-        print("Agent 1_NN Has Trajectory Length %s" % (trajectory_length))
-    else:
-        print("Agent failed")
+        # write to json
+        cnn_res['success'] = True
+        cnn_res['completion_time'] = completion_time
+        cnn_res['retries'] = retries
+        cnn_res['trajectory_length'] = trajectory_length
+        nn_res['random_rounds'] = random_rounds
+
+    except:
+        success = False
+        cnn_res['success'] = False
+
+
+    # write the jsons to a file
+    with open('{}/{}.json'.format(directory, int(starting_time)), 'w') as outfile:
+        json.dump({'agent_1': normal_out, 'agent_1_nn': nn_res, 'agent_1_cnn': cnn_res}, outfile)
 
 def verify_solvability(dim, complete_grid):
     # start planning a path from the starting block

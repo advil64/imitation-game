@@ -4,7 +4,17 @@ from gridworld import Gridworld
 from time import sleep, time
 import random
 
-physical_devices = tf.config.list_physical_devices('GPU') 
+gpus = tf.config.list_physical_devices('GPU')
+
+# if gpus:
+#   # Restrict TensorFlow to only use the first GPU
+#   try:
+#     tf.config.set_visible_devices(gpus[0], 'GPU')
+#   except RuntimeError as e:
+#     # Visible devices must be set before GPUs have been initialized
+#     print(e)
+
+physical_devices = tf.config.list_physical_devices('GPU')
 tf.config.experimental.set_memory_growth(physical_devices[0], True)
 
 class Agent_1:
@@ -13,7 +23,8 @@ class Agent_1:
     self.dim = dim
     self.discovered_grid = Gridworld(dim)
     self.cg = [[0] * dim for i in range(dim)]
-    self.neural_network = tf.keras.models.load_model('/common/users/ac1771/imitation-game/models/agent1_NN')
+    with tf.device("/gpu:0"):
+      self.neural_network = tf.keras.models.load_model('/common/users/ac1771/imitation-game/models/agent1_NN')
 
   def execute_path(self, complete_grid, timeout_sec):
     starting_time = time()

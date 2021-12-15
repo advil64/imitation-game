@@ -8,9 +8,9 @@
             "name": "Python Run Main",
             "type": "python",
             "request": "launch",
-            "program": "./src/main_3_nn.py",
+            "program": "./src/main_nn.py",
             "console": "integratedTerminal",
-            "args": ["-d", "50", "-p", "0.3", "-w", "results/agent_3"]
+            "args": ["-d", "50", "-p", "0.3", "-w", "results/test", ">&", "log.txt"]
         }
     ]
 }
