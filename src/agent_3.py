@@ -43,9 +43,6 @@ class Agent_3:
 
                 self.path_world.update_grid_obstacle(curr,0)
                 self.cg[curr[0]][curr[1]] += 1
-                # Add step info to dataset
-                if index < len(path)-1 and self.discovered_grid.gridworld[path[index + 1].curr_block[0]][path[index + 1].curr_block[1]] != 1:
-                    self.add_to_json(self.path_world, curr, self.get_direction(curr, path[index + 1].curr_block))
 
                 # return the last node
                 to_ret = node
@@ -63,6 +60,10 @@ class Agent_3:
             cell.confirmed = True
             # use the new info to draw conclusions about neighbors
             new_confirmed_cells = self.update_neighbors(cell)
+
+            # Add step info to dataset
+            if self.discovered_grid.gridworld[cell.x][cell.y] == 0 and index < len(path)-1 and self.discovered_grid.gridworld[path[index + 1].curr_block[0]][path[index + 1].curr_block[1]] != 1:
+                self.add_to_json(self.discovered_grid, curr, self.get_direction(curr, path[index + 1].curr_block))
 
             # if we bumped into an obstacle, then leave the execution
             if bump:
