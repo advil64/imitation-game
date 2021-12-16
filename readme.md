@@ -31,6 +31,7 @@ No, we do not believe increasing the size or complexity of our model will offer 
 
 **7)  Does good performance on test data correlate with good performance in practice?  Simulate the performance of your ML agent on new gridworlds to evaluate this.**
 
+```
 Gridworld
 [0, 1, 0, 0, 1, 0, 1, 0, 0, 1]
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
@@ -42,11 +43,13 @@ Gridworld
 [0, 0, 0, 0, 0, 0, 1, 1, 0, 1]
 [1, 1, 0, 0, 0, 0, 1, 1, 0, 1]
 [0, 0, 0, 0, 1, 1, 0, 0, 0, 0]
+```
 
 Agents Paths:
 1 means the agent visited that cell
 0 means the agent didn't visit the cell
 
+```
 Original Agent Map on a 10x10 Example
 [1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 [1, 1, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -58,7 +61,9 @@ Original Agent Map on a 10x10 Example
 [0, 0, 0, 1, 0, 1, 0, 0, 1, 0]
 [0, 0, 0, 1, 1, 1, 0, 0, 1, 0]
 [0, 0, 0, 1, 0, 0, 0, 0, 1, 1]
+```
 
+```
 Project 1: Architecture 1 Agent Map on same 10x10 Example
 [1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 [1, 1, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -70,7 +75,9 @@ Project 1: Architecture 1 Agent Map on same 10x10 Example
 [0, 0, 0, 1, 0, 1, 0, 0, 1, 0]
 [0, 0, 0, 1, 1, 1, 0, 0, 1, 0]
 [0, 0, 0, 1, 0, 0, 0, 0, 1, 1]
+```
 
+```
 Project 1: Architecture 2 Agent Map on same 10x10 Example
 [1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 [1, 1, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -82,6 +89,7 @@ Project 1: Architecture 2 Agent Map on same 10x10 Example
 [0, 0, 0, 1, 0, 1, 0, 0, 1, 0]
 [0, 0, 0, 1, 1, 1, 0, 0, 1, 0]
 [0, 0, 0, 1, 0, 0, 0, 0, 1, 1]
+```
 
 Based off the data above, it appears that our agents were able to successfully mimic the original agent in this example 10x10 grid.
 
@@ -194,6 +202,7 @@ We don't believe incrasing the size or complexity of our model would offer any i
 
 **7)  Does good performance on test data correlate with good performance in practice?  Simulate the performance of your ML agent on new gridworlds to evaluate this.**
 
+```
 Gridworld
 [0, 0, 1, 1, 0, 1, 0, 0, 0, 1]
 [0, 0, 1, 0, 0, 0, 1, 0, 0, 0]
@@ -205,11 +214,13 @@ Gridworld
 [1, 0, 0, 0, 0, 0, 1, 0, 0, 0]
 [0, 1, 1, 0, 1, 0, 0, 1, 0, 0]
 [0, 0, 0, 1, 1, 0, 1, 0, 0, 0]
+```
 
 Agents Paths:
 1 means the agent visited that cell
 0 means the agent didn't visit the cell
 
+```
 Original Agent Map on a 10x10 Example
 [1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 [1, 1, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -221,7 +232,9 @@ Original Agent Map on a 10x10 Example
 [0, 0, 0, 1, 1, 1, 0, 1, 1, 0]
 [0, 0, 0, 1, 0, 1, 1, 0, 1, 0]
 [0, 0, 0, 0, 0, 1, 0, 0, 1, 1]
+```
 
+```
 Project 2: Architecture 1 Agent Map on same 10x10 Example
 [1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 [1, 1, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -233,7 +246,9 @@ Project 2: Architecture 1 Agent Map on same 10x10 Example
 [0, 0, 0, 1, 1, 1, 0, 1, 1, 0]
 [0, 0, 0, 1, 0, 1, 1, 0, 1, 0]
 [0, 0, 0, 0, 0, 1, 0, 0, 1, 1]
+```
 
+```
 Project 2: Architecture 2 Agent Map on same 10x10 Example
 [1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 [1, 1, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -245,6 +260,7 @@ Project 2: Architecture 2 Agent Map on same 10x10 Example
 [0, 0, 0, 1, 1, 1, 0, 1, 1, 0]
 [0, 0, 0, 1, 0, 1, 1, 0, 1, 0]
 [0, 0, 0, 0, 0, 1, 0, 0, 1, 1]
+```
 
 Based off the data above, it appears that our agents were able to successfully mimic the original agent in this example 10x10 grid.
 
@@ -300,6 +316,10 @@ When we got an accuracy we were satisfied with, we began to simplify the network
 **6)  Do you think increasing the size or complexity of your model would offer any improvements?  Why or why not?**
 
 We don't believe incrasing the size or complexity of our model would offer any improvements for the same reasons as in Project 1 Architecture 1.
+
+**7)  Does good performance on test data correlate with good performance in practice?  Simulate the performance of your ML agent on new gridworlds to evaluate this.**
+
+Please refer to Project 2: Architecture 1 Question 7.
 
 **8)  For your best model structure, for each architecture, plot a) performance on test data as a function of trainingrounds, and b) average performance in practice on new gridworlds.  How do your ML agents stack up against the original agents?  Do either ML agents offer an advantage in terms of training time?**
 
