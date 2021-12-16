@@ -14,7 +14,9 @@ Finally, we used an array to represent the action that needed to be taken. We do
 
 We defined the loss function for our training to be categorical cross entropy loss function. We chose to use this as our loss function as we treated this problem as a classification problem where given the input, we wanted the neural network to classify this as a state that required either going left, up, right, or down with probabilities. We wanted to make this loss function cross entropy as we represented our output as a one hot encoding array. As a result, categorical cross entropy was the ideal loss function for our purposes.
 
-Placeholder
+**3)  In training, how many episodes on how many different gridworlds were necessary to get good performance ofyour model on the training data?**
+
+![Plot](images/grids_amount_accuracy_line_chart.png)
 
 **4)  How did you avoid overfitting?  Since you want the ML agent to mimic the original agent, should you avoid overfitting?**
 
@@ -133,7 +135,9 @@ This architecure uses the same representations and for the same reasons as Proje
 
 This architecure uses the same loss function and for the same reasons as Project 1 Architecture 1.
 
-Placeholder
+**3)  In training, how many episodes on how many different gridworlds were necessary to get good performance ofyour model on the training data?**
+
+![Plot](images/grids_amount_accuracy_line_chart.png)
 
 **4)  How did you avoid overfitting?  Since you want the ML agent to mimic the original agent, should you avoid overfitting?**
 
@@ -191,7 +195,9 @@ It should be noted that due to time constraints, we had to use manual inferences
 
 This architecure uses the same loss function and for the same reasons as Project 1 Architecture 1 and 2.
 
-Placeholder
+**3)  In training, how many episodes on how many different gridworlds were necessary to get good performance ofyour model on the training data?**
+
+![Plot](images/grids_amount_accuracy_line_chart.png)
 
 **4)  How did you avoid overfitting?  Since you want the ML agent to mimic the original agent, should you avoid overfitting?**
 
@@ -309,7 +315,9 @@ This architecure uses the same representations and for the same reasons as Proje
 
 This architecure uses the same loss function and for the same reasons as Project 1 Architecture 1 and 2.
 
-Placeholder
+**3)  In training, how many episodes on how many different gridworlds were necessary to get good performance ofyour model on the training data?**
+
+![Plot](images/grids_amount_accuracy_line_chart.png)
 
 **4)  How did you avoid overfitting?  Since you want the ML agent to mimic the original agent, should you avoid overfitting?**
 
