@@ -29,9 +29,69 @@ When we got an accuracy we were satisfied with, we began to simplify the network
 
 No, we do not believe increasing the size or complexity of our model will offer any improvements. Our current model is already able to predict the direction with high accuracy and so we want to avoid making the model even more complex in order to avoid the potential side effects of doing so. The main issue we wanted to avoid was overfitting our model to the training data as we want our model to generalize well. This is also one of the reasons why we aimed for a simple model when exploring the architecture space.
 
-Placeholder
+**7)  Does good performance on test data correlate with good performance in practice?  Simulate the performance of your ML agent on new gridworlds to evaluate this.**
+
+Gridworld
+[0, 1, 0, 0, 1, 0, 1, 0, 0, 1]
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+[1, 0, 1, 0, 0, 1, 0, 0, 1, 0]
+[0, 0, 1, 0, 0, 0, 1, 1, 1, 0]
+[0, 0, 0, 0, 0, 1, 0, 0, 0, 1]
+[0, 1, 0, 0, 1, 0, 1, 1, 0, 0]
+[1, 0, 1, 0, 0, 0, 0, 0, 0, 0]
+[0, 0, 0, 0, 0, 0, 1, 1, 0, 1]
+[1, 1, 0, 0, 0, 0, 1, 1, 0, 1]
+[0, 0, 0, 0, 1, 1, 0, 0, 0, 0]
+
+Agents Paths:
+1 means the agent visited that cell
+0 means the agent didn't visit the cell
+
+Original Agent Map on a 10x10 Example
+[1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+[1, 1, 0, 0, 0, 0, 0, 0, 0, 0]
+[0, 1, 0, 0, 0, 0, 0, 0, 0, 0]
+[0, 1, 0, 0, 0, 0, 0, 0, 0, 0]
+[0, 1, 1, 0, 0, 0, 0, 0, 0, 0]
+[0, 0, 1, 1, 0, 0, 0, 0, 0, 0]
+[0, 0, 0, 1, 0, 1, 1, 1, 1, 0]
+[0, 0, 0, 1, 0, 1, 0, 0, 1, 0]
+[0, 0, 0, 1, 1, 1, 0, 0, 1, 0]
+[0, 0, 0, 1, 0, 0, 0, 0, 1, 1]
+
+Project 1: Architecture 1 Agent Map on same 10x10 Example
+[1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+[1, 1, 0, 0, 0, 0, 0, 0, 0, 0]
+[0, 1, 0, 0, 0, 0, 0, 0, 0, 0]
+[0, 1, 0, 0, 0, 0, 0, 0, 0, 0]
+[0, 1, 1, 0, 0, 0, 0, 0, 0, 0]
+[0, 0, 1, 1, 0, 0, 0, 0, 0, 0]
+[0, 0, 0, 1, 0, 1, 1, 1, 1, 0]
+[0, 0, 0, 1, 0, 1, 0, 0, 1, 0]
+[0, 0, 0, 1, 1, 1, 0, 0, 1, 0]
+[0, 0, 0, 1, 0, 0, 0, 0, 1, 1]
+
+Project 1: Architecture 2 Agent Map on same 10x10 Example
+[1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+[1, 1, 0, 0, 0, 0, 0, 0, 0, 0]
+[0, 1, 0, 0, 0, 0, 0, 0, 0, 0]
+[0, 1, 0, 0, 0, 0, 0, 0, 0, 0]
+[0, 1, 1, 0, 0, 0, 0, 0, 0, 0]
+[0, 0, 1, 1, 0, 0, 0, 0, 0, 0]
+[0, 0, 0, 1, 0, 1, 1, 1, 1, 0]
+[0, 0, 0, 1, 0, 1, 0, 0, 1, 0]
+[0, 0, 0, 1, 1, 1, 0, 0, 1, 0]
+[0, 0, 0, 1, 0, 0, 0, 0, 1, 1]
+
+Based off the data above, it appears that our agents were able to successfully mimic the original agent in this example 10x10 grid.
+
+In this particular case, our agents validation accuracy were in the high 90s so it does appear that good performance on test data does correlate with good performance in practice. However, it should be noted that this may not always be the case. For example, there may occasionaly be times where the ML agents (despite having good test performance) may get stuck in a deadend while the original agent is able to leave. Although this example doesn't show this, is a possible case that shows that good performance on test data may not always correlate with good performance in practice.
 
 **8)  For your best model structure, for each architecture, plot a) performance on test data as a function of trainingrounds, and b) average performance in practice on new gridworlds.  How do your ML agents stack up against the original agents?  Do either ML agents offer an advantage in terms of training time?**
+
+Key:
+NN Agent refers to Project 1: Architecture 1
+CNN Agent refers to Project 1: Architecture 2
 
 ![Plot](images/bar_chart_percent_fail_agent1.png)
 
@@ -77,7 +137,15 @@ When we got an accuracy we were satisfied with, we began to simplify the network
 **6)  Do you think increasing the size or complexity of your model would offer any improvements?  Why or why not?**
 We don't believe incrasing the size or complexity of our model would offer any improvements for the same reasons as in Project 1 Architecture 1.
 
+**7)  Does good performance on test data correlate with good performance in practice?  Simulate the performance of your ML agent on new gridworlds to evaluate this.**
+
+Please refer to Project 1: Architecture 1 Question 7.
+
 **8)  For your best model structure, for each architecture, plot a) performance on test data as a function of trainingrounds, and b) average performance in practice on new gridworlds.  How do your ML agents stack up against the original agents?  Do either ML agents offer an advantage in terms of training time?**
+
+Key:
+NN Agent refers to Project 1: Architecture 1
+CNN Agent refers to Project 1: Architecture 2
 
 ![Plot](images/bar_chart_percent_fail_agent1.png)
 
@@ -124,7 +192,69 @@ When we got an accuracy we were satisfied with, we began to simplify the network
 
 We don't believe incrasing the size or complexity of our model would offer any improvements for the same reasons as in Project 1 Architecture 1.
 
+**7)  Does good performance on test data correlate with good performance in practice?  Simulate the performance of your ML agent on new gridworlds to evaluate this.**
+
+Gridworld
+[0, 0, 1, 1, 0, 1, 0, 0, 0, 1]
+[0, 0, 1, 0, 0, 0, 1, 0, 0, 0]
+[1, 0, 0, 1, 1, 0, 0, 0, 0, 0]
+[0, 1, 0, 0, 1, 0, 1, 0, 1, 0]
+[1, 0, 0, 0, 0, 0, 1, 0, 1, 0]
+[0, 0, 1, 0, 0, 0, 1, 1, 0, 1]
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+[1, 0, 0, 0, 0, 0, 1, 0, 0, 0]
+[0, 1, 1, 0, 1, 0, 0, 1, 0, 0]
+[0, 0, 0, 1, 1, 0, 1, 0, 0, 0]
+
+Agents Paths:
+1 means the agent visited that cell
+0 means the agent didn't visit the cell
+
+Original Agent Map on a 10x10 Example
+[1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+[1, 1, 0, 0, 0, 0, 0, 0, 0, 0]
+[0, 1, 1, 0, 0, 0, 0, 0, 0, 0]
+[0, 0, 1, 0, 0, 0, 0, 0, 0, 0]
+[0, 0, 1, 1, 0, 0, 0, 0, 0, 0]
+[0, 0, 0, 1, 0, 0, 0, 0, 0, 0]
+[0, 0, 0, 1, 0, 1, 1, 1, 0, 0]
+[0, 0, 0, 1, 1, 1, 0, 1, 1, 0]
+[0, 0, 0, 1, 0, 1, 1, 0, 1, 0]
+[0, 0, 0, 0, 0, 1, 0, 0, 1, 1]
+
+Project 2: Architecture 1 Agent Map on same 10x10 Example
+[1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+[1, 1, 0, 0, 0, 0, 0, 0, 0, 0]
+[0, 1, 1, 0, 0, 0, 0, 0, 0, 0]
+[0, 0, 1, 0, 0, 0, 0, 0, 0, 0]
+[0, 0, 1, 1, 0, 0, 0, 0, 0, 0]
+[0, 0, 0, 1, 0, 0, 0, 0, 0, 0]
+[0, 0, 0, 1, 0, 1, 1, 1, 0, 0]
+[0, 0, 0, 1, 1, 1, 0, 1, 1, 0]
+[0, 0, 0, 1, 0, 1, 1, 0, 1, 0]
+[0, 0, 0, 0, 0, 1, 0, 0, 1, 1]
+
+Project 2: Architecture 2 Agent Map on same 10x10 Example
+[1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+[1, 1, 0, 0, 0, 0, 0, 0, 0, 0]
+[0, 1, 1, 0, 0, 0, 0, 0, 0, 0]
+[0, 0, 1, 0, 0, 0, 0, 0, 0, 0]
+[0, 0, 1, 1, 0, 0, 0, 0, 0, 0]
+[0, 0, 0, 1, 0, 0, 0, 0, 0, 0]
+[0, 0, 0, 1, 0, 1, 1, 1, 0, 0]
+[0, 0, 0, 1, 1, 1, 0, 1, 1, 0]
+[0, 0, 0, 1, 0, 1, 1, 0, 1, 0]
+[0, 0, 0, 0, 0, 1, 0, 0, 1, 1]
+
+Based off the data above, it appears that our agents were able to successfully mimic the original agent in this example 10x10 grid.
+
+In this particular case, our agents validation accuracy were in the high 90s so it does appear that good performance on test data does correlate with good performance in practice. However, it should be noted that this may not always be the case. For example, there may occasionaly be times where the ML agents (despite having good test performance) may get stuck in a deadend while the original agent is able to leave. Although this example doesn't show this, is a possible case that shows that good performance on test data may not always correlate with good performance in practice.
+
 **8)  For your best model structure, for each architecture, plot a) performance on test data as a function of training rounds, and b) average performance in practice on new gridworlds.  How do your ML agents stack up against the original agents?  Do either ML agents offer an advantage in terms of training time?**
+
+Key:
+NN Agent refers to Project 2: Architecture 1
+CNN Agent refers to Project 2: Architecture 2
 
 ![Plot](images/bar_chart_percent_fail_agent3.png)
 
@@ -172,6 +302,10 @@ When we got an accuracy we were satisfied with, we began to simplify the network
 We don't believe incrasing the size or complexity of our model would offer any improvements for the same reasons as in Project 1 Architecture 1.
 
 **8)  For your best model structure, for each architecture, plot a) performance on test data as a function of trainingrounds, and b) average performance in practice on new gridworlds.  How do your ML agents stack up against the original agents?  Do either ML agents offer an advantage in terms of training time?**
+
+Key:
+NN Agent refers to Project 2: Architecture 1
+CNN Agent refers to Project 2: Architecture 2
 
 ![Plot](images/bar_chart_percent_fail_agent3.png)
 
