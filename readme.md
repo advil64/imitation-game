@@ -124,6 +124,27 @@ When we got an accuracy we were satisfied with, we began to simplify the network
 
 We don't believe incrasing the size or complexity of our model would offer any improvements for the same reasons as in Project 1 Architecture 1.
 
+**8)  For your best model structure, for each architecture, plot a) performance on test data as a function of training rounds, and b) average performance in practice on new gridworlds.  How do your ML agents stack up against the original agents?  Do either ML agents offer an advantage in terms of training time?**
+
+![Plot](images/bar_chart_percent_fail_agent3.png)
+
+As seen in this graph, our NN Agent was able to solve at least 86% of the 3000 50x50 grids we ran it against. We noticed that a common case of failure for this agent is if it encounters a deadend and is unable to get out of the deadend. However, based off these results, our NN agent was still able to solve 86% of the grids that the original agent solved.
+Compared to the CNN Agent (which solves 96.5% of grids), our NN Agent wasn't able to solve as many grids. When considering the training time of these agents, it appears that the CNN Agent offers an advantage as it was able to solve a significant more number of grids which is worthwhile to have even if you're training without a GPU (where the CNN agent appears takes longer to train).
+
+![Plot](images/bar_chart_performance_agent3.png)
+
+As seen in this graph, our NN Agent performs worse than the CNN agent and the original agent. On average, the NN Agent take 66 more steps than the CNN agent and 128 more steps than the original agent. The NN agent is likely not able to perform as good as the original agent because it is just attempting to mimic the original agent while also being more prone to hitting blocks and slowly getting out of deadends compared to the original agent.
+In this case, the CNN agent still offers an advantage in terms of training time, whether you're training with a GPU or not, as there is a significant difference in the optimality of the paths taken by the CNN agent compared to the NN agent.
+
+![Plot](images/bar_chart_time_agent3.png)
+
+As seen in this graph, our NN agent performed worse than the CNN agent and the original agent. This likely due to our repeated calls to the neural network each step which may have likely slowed down the agent and due to the slightly larger trajectories of the NN agent.
+In this case, the NN agent may offer an advantage in terms of training time when training without a GPU as there isn't a noticeable difference between the average time taken in the NN agent and the CNN agent. However, when training on a GPU, the CNN agent will be a better choice.
+
+Overall, our NN agent performs worse in terms of solvability and trajectory, and significantly worse in terms of time. This was expected as the goal of the neural network was to mimic the original agent, however, it is difficult to train the neural network to absolutely mimic the original agent. 
+
+Regarding advantages in terms of training, the CNN agent offers more advantages, whether you're training with a GPU or not, as the improvements in solvability and optimality are signifcant despite the training time difference if training without a GPU.
+
 ## Project 2: Archtecture 2
 **1) How  should  the  state  space  (current  information)  and  action  space  (action  selected)  be  represented  for  the model?  How does it capture the relevant information, in a relevant way, for your model space? One thing toconsider here is local vs global information.**
 
@@ -149,4 +170,23 @@ When we got an accuracy we were satisfied with, we began to simplify the network
 **6)  Do you think increasing the size or complexity of your model would offer any improvements?  Why or why not?**
 
 We don't believe incrasing the size or complexity of our model would offer any improvements for the same reasons as in Project 1 Architecture 1.
+
+**8)  For your best model structure, for each architecture, plot a) performance on test data as a function of trainingrounds, and b) average performance in practice on new gridworlds.  How do your ML agents stack up against the original agents?  Do either ML agents offer an advantage in terms of training time?**
+
+![Plot](images/bar_chart_percent_fail_agent3.png)
+
+As seen in this graph, the CNN Agent was able to solve around 96.5% of the 3000 50x50 grids we generated. This makes the CNN agent close to as good at solving grids as the original agent. Although it solves more grids than the NN agent, it does seem to still suffer from failure cases including problems with escaping deadends.
+For an evaluation of NN vs CNN in terms of training for solvability, refer to Project 2: Architecture 1 Question 8.
+
+![Plot](images/bar_chart_performance_agent3.png)
+
+As seen in this graph, the CNN Agent was able to perform significantly better than the NN agent, but still worse than the original agent. Similar to the NN agent, the reason for the slightly worse trajectory compared to the original agent may be due to hitting more blocks and getting out of deadends slowly.
+For an evaluation of NN vs CNN in terms of training for performance, refer to Project 2: Architecture 1 Question 8.
+
+![Plot](images/bar_chart_time_agent3.png)
+
+As seen in this graph, the CNN Agent performed worse than the original agent in terms of time. Like the NN agent, this is likely due to the repeated calls to the CNN each step which slows the agent down.
+For an evaluation of NN vs CNN in terms of training for time, refer to Project 2: Architecture 1 Question 8.
+
+For an evaluation of NN and CNN compared to the original agent and final evaluation of NN vs CNN in terms of training overall, refer to Project 2: Architecture 1 Question 8.
 
