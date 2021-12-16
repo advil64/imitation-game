@@ -101,6 +101,9 @@ Key:
 NN Agent refers to Project 1: Architecture 1
 CNN Agent refers to Project 1: Architecture 2
 
+![Plot](zoomed_in_line_chart.png)
+Based off the graph above, we can see that the NN Agent gradually increases in accuracy until it flattens at around 6 epochs.
+
 ![Plot](images/bar_chart_percent_fail_agent1.png)
 
 As seen in this graph, our NN Agent was able to solve at least 95% of the 3000 50x50 grids we ran it against. We noticed that a common case of failure for this agent is if it encounters a deadend and is unable to get out of the deadend. However, based off these results, our NN agent was still able to solve 95% of the grids that the original agent solved.
@@ -154,6 +157,9 @@ Please refer to Project 1: Architecture 1 Question 7.
 Key:
 NN Agent refers to Project 1: Architecture 1
 CNN Agent refers to Project 1: Architecture 2
+
+![Plot](zoomed_in_line_chart.png)
+Based off the graph above, we can see that the CNN Agent sharply increases in accuracy in the second epoch and it peaks around 5 epochs before flattening.
 
 ![Plot](images/bar_chart_percent_fail_agent1.png)
 
@@ -272,6 +278,9 @@ Key:
 NN Agent refers to Project 2: Architecture 1
 CNN Agent refers to Project 2: Architecture 2
 
+![Plot](zoomed_in_line_chart.png)
+Based off the graph above, we can see that the NN Agent gradually increases in accuracy until it decreases at around 5 epochs. It begins to increase again afterwards.
+
 ![Plot](images/bar_chart_percent_fail_agent3.png)
 
 As seen in this graph, our NN Agent was able to solve at least 86% of the 3000 50x50 grids we ran it against. We noticed that a common case of failure for this agent is if it encounters a deadend and is unable to get out of the deadend. However, based off these results, our NN agent was still able to solve 86% of the grids that the original agent solved.
@@ -326,6 +335,9 @@ Please refer to Project 2: Architecture 1 Question 7.
 Key:
 NN Agent refers to Project 2: Architecture 1
 CNN Agent refers to Project 2: Architecture 2
+
+![Plot](zoomed_in_line_chart.png)
+Based off the graph above, we can see that the CNN Agent gradually increases in accuracy until it decreases at around 7 epochs, possibly from overfitting.
 
 ![Plot](images/bar_chart_percent_fail_agent3.png)
 
