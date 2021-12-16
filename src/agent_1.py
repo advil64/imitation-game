@@ -8,6 +8,7 @@ class Agent_1:
     self.discovered_grid = Gridworld(dim)
     self.cg = [[0] * dim for i in range(dim)]
     self.output = output
+    self.path = []
 
   def execute_path(self, path, complete_grid, path_coord):
     explored = 0
@@ -23,6 +24,8 @@ class Agent_1:
       # update knowledge of neighbor blocks
       self.update_neighbor_obstacles(curr, complete_grid)
       self.cg[curr[0]][curr[1]] += 1
+
+      # add to the path
 
       # Add step info to dataset
       if index < len(path)-1 and self.discovered_grid.gridworld[path[index + 1].curr_block[0]][path[index + 1].curr_block[1]] != 1:

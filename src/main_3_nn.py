@@ -41,7 +41,7 @@ def solver(dim, prob, directory, complete_grid=None):
     # dense neural network
     try:
         starting_time = time()
-        success, trajectory_length, retries, random_rounds = agents[0].execute_path(complete_grid, 20)
+        success, trajectory_length, retries = agents[0].execute_path(complete_grid, 20)
         completion_time = time() - starting_time
         
         # write to json
@@ -49,7 +49,7 @@ def solver(dim, prob, directory, complete_grid=None):
         nn_res['completion_time'] = completion_time
         nn_res['retries'] = retries
         nn_res['trajectory_length'] = trajectory_length
-        nn_res['random_rounds'] = random_rounds
+        # nn_res['random_rounds'] = random_rounds
     
     except:
         success = False
@@ -58,7 +58,7 @@ def solver(dim, prob, directory, complete_grid=None):
     # convolutional layer
     try:
         starting_time = time()
-        success, trajectory_length, retries, random_rounds = agents[1].execute_path(complete_grid, 20)
+        success, trajectory_length, retries = agents[1].execute_path(complete_grid, 20)
         completion_time = time() - starting_time
 
         # write to json
@@ -66,7 +66,7 @@ def solver(dim, prob, directory, complete_grid=None):
         cnn_res['completion_time'] = completion_time
         cnn_res['retries'] = retries
         cnn_res['trajectory_length'] = trajectory_length
-        nn_res['random_rounds'] = random_rounds
+        # nn_res['random_rounds'] = random_rounds
 
     except:
         success = False
@@ -75,7 +75,7 @@ def solver(dim, prob, directory, complete_grid=None):
 
     # write the jsons to a file
     with open('{}/{}.json'.format(directory, int(starting_time)), 'w') as outfile:
-        json.dump({'agent_1': normal_out, 'agent_1_nn': nn_res, 'agent_1_cnn': cnn_res}, outfile)
+        json.dump({'agent_3': normal_out, 'agent_3_nn': nn_res, 'agent_3_cnn': cnn_res}, outfile)
 
 def verify_solvability(dim, complete_grid):
     # start planning a path from the starting block

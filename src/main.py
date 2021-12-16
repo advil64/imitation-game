@@ -20,13 +20,14 @@ import calendar
 
 def solver(dim, prob, directory, complete_grid=None):
 
-    complete_grid = Gridworld(dim, prob, False)
-    while not verify_solvability(dim, complete_grid):
-      # keep generating a new grid until we get a solvable one
-      complete_grid = Gridworld(dim, prob, False)
+    if not complete_grid:
+        complete_grid = Gridworld(dim, prob, False)
+        while not verify_solvability(dim, complete_grid):
+            # keep generating a new grid until we get a solvable one
+            complete_grid = Gridworld(dim, prob, False)
 
     # create agents (ignored agent 3)
-    agents = [Agent_1(dim, [])]
+    agents = [Agent_3(dim, [])]
 
     for count, agent_object in enumerate(agents):
         # total number of cells explored

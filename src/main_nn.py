@@ -33,7 +33,7 @@ def solver(dim, prob, directory, complete_grid=None):
     complete_grid.print()
 
     # first run the normal agent on the complete grid and collect data
-    normal_out = normal_solver(dim, prob, complete_grid)
+    normal_out = normal_solver(dim, prob, directory, complete_grid)
 
     # create agents (ignored agent 3)
     agents = [agent_1_nn(dim), agent_1_cnn(dim)]
